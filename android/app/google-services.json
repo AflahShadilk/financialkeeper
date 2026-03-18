@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "100022440174",
+    "project_id": "financial-keeper",
+    "storage_bucket": "financial-keeper.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:100022440174:android:44730c7ebfb908af1e23ff",
+        "android_client_info": {
+          "package_name": "com.example.financialkeeper"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDWLWf8FlcOLPFrd2XeleWNo_xS-etA4fs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
