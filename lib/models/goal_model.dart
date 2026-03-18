@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 class GoalModel {
   final String title;
   final double savedAmount;
@@ -15,7 +17,7 @@ class GoalModel {
       title: json['title'],
       savedAmount: (json['savedAmount']as num).toDouble(),
       targetAmount: (json['targetAmount']as num).toDouble(),
-      deadline: DateTime.parse(json['deadline']),
+      deadline: (json['deadline'] as Timestamp).toDate(),
     );
   }
 }

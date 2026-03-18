@@ -1,8 +1,10 @@
+import 'package:financialkeeper/services/firebase_service.dart';
 import 'package:get/get.dart';
 import '../models/goal_model.dart';
 import '../models/contribution_model.dart';
 
 class GoalController extends GetxController {
+  final FirebaseService _firebaseService = FirebaseService();
   var isLoading = true.obs;
 
   var goal = Rxn<GoalModel>();
@@ -11,27 +13,22 @@ class GoalController extends GetxController {
   @override
   void onInit() {
     super.onInit();
-    loadDummyData(); // later replace with Firebase
+    listenToGoal();
   }
 
-  
-  void loadDummyData() async {
-    await Future.delayed(const Duration(seconds: 1));
+  //goallistening
+  void listenToGoal() {
+    _firebaseService.getGoals().listen((data) {
+      goal.value = data;
+      isLoading.value = false;
+    });
+  }
 
-    goal.value = GoalModel(
-      title: "Buy Dream House",
-      savedAmount: 50000,
-      targetAmount: 100000,
-      deadline: DateTime(2026, 12, 31),
-    );
-
-    contributions.value = [
-      ContributionModel(amount: 2000, date: DateTime(2026, 1, 10)),
-      ContributionModel(amount: 3000, date: DateTime(2026, 1, 15)),
-      ContributionModel(amount: 5000, date: DateTime(2026, 2, 1)),
-    ];
-
-    isLoading.value = false;
+  //contribution listening
+  void listenToContributions() {
+    _firebaseService.getContributions().listen((data) {
+      contributions.value = data;
+    });
   }
 
   // Progress calculation
@@ -44,8 +41,7 @@ class GoalController extends GetxController {
   String get monthlySuggestion {
     if (goal.value == null) return "";
 
-    final remaining =
-        goal.value!.targetAmount - goal.value!.savedAmount;
+    final remaining = goal.value!.targetAmount - goal.value!.savedAmount;
 
     final monthsLeft =
         goal.value!.deadline.difference(DateTime.now()).inDays ~/ 30;
