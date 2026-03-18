@@ -16,29 +16,35 @@ class GoalScreen extends GetView<GoalController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.progressBackground,
+      backgroundColor: AppColors.background,
       body: SafeArea(
           child: Padding(
               padding: const EdgeInsets.all(16),
               child: Obx(() {
-                if(controller.isLoading.value) {
+                if (controller.isLoading.value) {
                   return const LoadingView();
                 }
-                final goal = controller.goal.value!;
-                return Column(
-                   crossAxisAlignment: CrossAxisAlignment.start,
-                   children: [
-                    GoalHeader(title:goal.title),
-                    20.h,
-                    GoalProgress(progress: controller.progress),
-                    20.h,
-                    StatsSection(saved: goal.savedAmount, target: goal.targetAmount),
-                    20.h,
-                    InsightCard(text: controller.monthlySuggestion),
-                    20.h,
-                    Expanded(child: ContributionList())
-
-                   ],
+                final goal = controller.goal.value;
+                if (goal == null) {
+                  return const LoadingView();
+                }
+                return AnimatedSwitcher(
+                  duration: const Duration(milliseconds: 400),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      GoalHeader(title: goal.title),
+                      20.h,
+                      GoalProgress(progress: controller.progress),
+                      20.h,
+                      StatsSection(
+                          saved: goal.savedAmount, target: goal.targetAmount),
+                      20.h,
+                      InsightCard(text: controller.monthlySuggestion),
+                      20.h,
+                      Expanded(child: ContributionList())
+                    ],
+                  ),
                 );
               }))),
     );

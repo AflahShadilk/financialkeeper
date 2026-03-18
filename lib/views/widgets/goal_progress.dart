@@ -1,8 +1,10 @@
 import 'package:financialkeeper/core/theme/app_colors.dart';
+import 'package:financialkeeper/core/widgets/app_text.dart';
+import 'package:financialkeeper/views/widgets/gradient_progress.dart';
 import 'package:flutter/material.dart';
 
 class GoalProgress extends StatelessWidget {
-  final double progress; 
+  final double progress;
   const GoalProgress({super.key, required this.progress});
 
   @override
@@ -18,13 +20,17 @@ class GoalProgress extends StatelessWidget {
                 SizedBox(
                     height: 160,
                     width: 160,
-                    child: CircularProgressIndicator(
-                      value: value,
-                      strokeWidth: 10,
-                      backgroundColor: AppColors.progressBackground,
-                      valueColor: AlwaysStoppedAnimation<Color>(
-                        AppColors.primary,
-                      ),
+                    child: Stack(
+                      alignment: Alignment.center,
+                      children: [
+                        GradientProgress(progress: value),
+                        AppText(
+                          '${(value * 100).toInt()}%',
+                          size: 22,
+                          weight: FontWeight.bold,
+                        )
+                        
+                      ],
                     )),
               ],
             );

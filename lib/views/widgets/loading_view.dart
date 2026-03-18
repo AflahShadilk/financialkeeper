@@ -1,4 +1,5 @@
-import 'package:financialkeeper/core/theme/app_colors.dart';
+import 'package:financialkeeper/core/extensions/spacing.dart';
+import 'package:financialkeeper/core/widgets/shimmer_box.dart';
 import 'package:flutter/material.dart';
 
 class LoadingView extends StatelessWidget {
@@ -6,8 +7,14 @@ class LoadingView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Center(
-      child: CircularProgressIndicator(color: AppColors.primary,),
+    return Column(
+      children: [
+        ShimmerBox(width: 150, height: 20),
+        20.h,
+        ShimmerBox(width: 160 , height: 160),
+        20.h,
+        ShimmerBox(width: double.infinity, height: 80)
+      ],
     );
   }
 }

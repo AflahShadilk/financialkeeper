@@ -11,9 +11,9 @@ class StatsSection extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        StatCard(title: 'Saved', value: '₹${saved.toStringAsFixed(0)}'),
+        StatCard(title: 'Saved', value: saved),
         12.w,
-        StatCard(title: 'Target', value: '₹${target.toStringAsFixed(0)}')
+        StatCard(title: 'Target', value: saved)
       ],
     );
   }
