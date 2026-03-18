@@ -4,21 +4,22 @@ import 'package:financialkeeper/core/widgets/app_text.dart';
 import 'package:flutter/material.dart';
 
 class GoalHeader extends StatelessWidget {
-  const GoalHeader({super.key});
+  final String title;
+  const GoalHeader({super.key, required this.title});
 
   @override
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        AppText(
+      const  AppText(
           'Your Goal',
           size: 14,
           color: AppColors.textSecondary,
         ),
         6.h,
         AppText(
-          'Buy Dream House',
+          title,
           size: 22,
           weight: FontWeight.bold,
         )
