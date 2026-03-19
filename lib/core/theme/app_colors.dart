@@ -25,6 +25,7 @@ class AppColors {
   // Glass
   static const glass = Color(0x14FFFFFF);
   static const border = Color(0x1FFFFFFF);
+   static const card = Color(0xFF1E293B);
 
   //  Progress / Divider
   static const progressBackground = Color(0x1FFFFFFF);

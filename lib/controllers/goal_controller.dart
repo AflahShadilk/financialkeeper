@@ -14,8 +14,9 @@ class GoalController extends GetxController {
   void onInit() {
     super.onInit();
     listenToGoal();
+    listenToContributions();
   }
-
+///goal related -----------------------------
   //goallistening
   void listenToGoal() {
     _firebaseService.getGoals().listen((data) {
@@ -24,11 +25,32 @@ class GoalController extends GetxController {
     });
   }
 
+    //goal creation
+  void createGoal(String title, double amount) {
+    _firebaseService.createGoal(title, amount);
+  }
+
+
+  /// contribution related -----------------------------
   //contribution listening
   void listenToContributions() {
     _firebaseService.getContributions().listen((data) {
       contributions.value = data;
     });
+  }
+
+ //add contribution
+  void addContribution(double amount) {
+    _firebaseService.addContribution(amount);
+  }
+  //update contribution
+  void updateContribution(ContributionModel contribution, double newAmount) {
+    _firebaseService.updateContribution(contribution.id, contribution.amount, newAmount);
+  }
+
+  //delete contribution
+  void deleteContribution(ContributionModel contribution) {
+    _firebaseService.deleteContribution(contribution.id, contribution.amount);
   }
 
   // Progress calculation
