@@ -3,6 +3,7 @@
 import 'package:financialkeeper/controllers/goal_controller.dart';
 import 'package:financialkeeper/core/extensions/spacing.dart';
 import 'package:financialkeeper/core/theme/app_colors.dart';
+import 'package:financialkeeper/views/widgets/adding_button.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -46,27 +47,10 @@ class AddContributionSheet extends GetView<GoalController> {
             ),
           ),
           20.h,
-          SizedBox(
-            width: double.infinity,
-            child: ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                backgroundColor: AppColors.primary,
-                padding: const EdgeInsets.symmetric(vertical: 14),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(14),
-                ),
-              ),
-              onPressed: () {
-                controller.addContribution(
-                  double.parse(amountController.text),
-                );
-                Get.back();
-              },
-              child: const Text("Add", style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
-            ),
-          ),
+          AddingButton(controller: controller, amountController: amountController),
         ],
       ),
     );
   }
 }
+

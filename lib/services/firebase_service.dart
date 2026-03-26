@@ -6,12 +6,12 @@ class FirebaseService {
   final _db = FirebaseFirestore.instance;
   
   //add goal
-  Future<void>createGoal(String title, double amount) async {
+  Future<void>createGoal(String title, double amount, DateTime deadline) async {
     await _db.collection('goals').doc('goal_1').set({
       'title': title,
       'savedAmount': 0.0,
       'targetAmount': amount,
-      'deadline': DateTime.now().add(const Duration(days: 180)),
+      'deadline': deadline,
     });
   }
 
@@ -66,7 +66,7 @@ class FirebaseService {
     final doc= await goalref.get();
     final currentSaved= doc.data()?['savedAmount']??0;
     await goalref.update({
-      'savedAmount': currentSaved - amount,
+      'savedAmount': (currentSaved - amount).clamp(0, double.infinity),
     });
   }
 
@@ -81,7 +81,7 @@ class FirebaseService {
     final doc = await goalRef.get();
     final current= doc.data()?['savedAmount']??0;
     await goalRef.update({
-      'savedAmount': current - oldAmount + newAmount,
+      'savedAmount': (current - oldAmount + newAmount).clamp(0, double.infinity),
     });
   }
 }

@@ -48,9 +48,9 @@ class GoalScreen extends GetView<GoalController> {
                     backgroundColor: AppColors.primary,
                   ),
                   onPressed: () {
-                    Get.bottomSheet(const AddGoalSheet());
+                    Get.bottomSheet(const AddGoalSheet(),isScrollControlled: true);
                   },
-                  child: const Text("Create Your First Goal"),
+                  child: const Text("Create Your First Goal", style: TextStyle(color: AppColors.textPrimary)),
                 ),
               );
             }
