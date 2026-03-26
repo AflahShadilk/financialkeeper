@@ -72,6 +72,7 @@ class GoalController extends GetxController {
     final remainingAmount = goalData.targetAmount - goalData.savedAmount;
     if(remainingAmount<=0) return "Goal achieved! You can stop contributing to this.";
     final perMonth = remainingAmount / monthsLeft;
-    return "Save ₹${perMonth.toStringAsFixed(0)}/month to reach your goal";
+    final timeText = monthsLeft > 0 ? "$monthsLeft months" : "$daysLeft days";
+    return "Save ₹${perMonth.toStringAsFixed(0)}/month for $timeText to reach your goal";
   }
 }
