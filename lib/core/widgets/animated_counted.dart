@@ -13,7 +13,7 @@ class AnimatedCounter extends StatelessWidget {
       duration: const Duration(seconds: 2),
       builder: (context, val, _) {
         return AppText(
-          Formatter.compactCurrency(val),
+          Formatter.currency(val),
           size: 16,
           weight: FontWeight.bold,
         );

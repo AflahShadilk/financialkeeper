@@ -35,9 +35,11 @@ class ContributionTile extends GetView<GoalController> {
         color: AppColors.success,
       ),
       trailing: PopupMenuButton(
+        
         color: AppColors.backgroundSecondary,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(12),
+          
         ),
         itemBuilder: (context) => [
           PopupMenuItem(
@@ -57,11 +59,11 @@ class ContributionTile extends GetView<GoalController> {
             value: 'delete',
             child: Row(
               children: [
-                const Icon(Icons.delete, size: 18, color: AppColors.success),
+                const Icon(Icons.delete, size: 18, color: AppColors.error),
                 const SizedBox(width: 8),
                 const Text(
                   "Delete",
-                  style: TextStyle(color: AppColors.success),
+                  style: TextStyle(color: AppColors.error),
                 ),
               ],
             ),

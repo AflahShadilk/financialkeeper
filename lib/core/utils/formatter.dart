@@ -10,10 +10,15 @@ class Formatter {
     ).format(amount);
   }
 
-  static String compactCurrency(double amount) {
-    return NumberFormat.compactCurrency(
-      locale: 'en_IN',
-      symbol: '₹',
-    ).format(amount);
-  }
+//   static String compactCurrency(double amount) {
+//   if (amount >= 10000000) {
+//     return '₹${(amount / 10000000).toStringAsFixed(1)}Cr';
+//   } else if (amount >= 100000) {
+//     return '₹${(amount / 100000).toStringAsFixed(1)}L';
+//   } else if (amount >= 1000) {
+//     return '₹${(amount / 1000).toStringAsFixed(1)}K';
+//   } else {
+//     return '₹${amount.toStringAsFixed(0)}';
+//   }
+// }
 }

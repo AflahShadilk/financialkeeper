@@ -62,16 +62,16 @@ class GoalController extends GetxController {
   // Monthly suggestion
   String get monthlySuggestion {
     if (goal.value == null) return "";
-
-    final remaining = goal.value!.targetAmount - goal.value!.savedAmount;
-
-    final monthsLeft =
-        goal.value!.deadline.difference(DateTime.now()).inDays ~/ 30;
+    final goalData= goal.value!;
+    final daysLeft= goalData.deadline.difference(DateTime.now()).inDays;
+    if(daysLeft<=0) return "Deadline reached";
+    final monthsLeft = daysLeft~/ 30;
 
     if (monthsLeft <= 0) return "Deadline reached";
 
-    final perMonth = remaining / monthsLeft;
-
+    final remainingAmount = goalData.targetAmount - goalData.savedAmount;
+    if(remainingAmount<=0) return "Goal achieved! You can stop contributing to this.";
+    final perMonth = remainingAmount / monthsLeft;
     return "Save ₹${perMonth.toStringAsFixed(0)}/month to reach your goal";
   }
 }

@@ -54,7 +54,7 @@ class DeleteContributionDialog extends GetView<GoalController> {
                     },
                     child: const Text(
                       "Cancel",
-                      style: TextStyle(color: AppColors.textSecondary),
+                      style: TextStyle(color: AppColors.success),
                     ),
                   ),
                 ),
@@ -70,7 +70,7 @@ class DeleteContributionDialog extends GetView<GoalController> {
                     },
                     child: const Text(
                       "Delete",
-                      style: TextStyle(color: AppColors.textPrimary),
+                      style: TextStyle(color: AppColors.error),
                     ),
                   ),
                 ),

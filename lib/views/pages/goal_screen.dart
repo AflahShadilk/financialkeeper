@@ -20,7 +20,7 @@ class GoalScreen extends GetView<GoalController> {
       backgroundColor: AppColors.background,
 
       floatingActionButton: Obx(() {
-        if (controller.goal.value == null) return const SizedBox();
+        if (controller.goal.value == null || controller.progress >= 1) return const SizedBox();
 
         return FloatingActionButton(
           backgroundColor: AppColors.primary,
@@ -62,8 +62,8 @@ class GoalScreen extends GetView<GoalController> {
                 children: [
                   Text(
                     goal.title,
-                    style: const TextStyle(
-                      color: Colors.white,
+                    style: TextStyle(
+                      color: AppColors.textPrimary,
                       fontSize: 22,
                       fontWeight: FontWeight.bold,
                     ),

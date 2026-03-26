@@ -23,9 +23,11 @@ class AddContributionSheet extends GetView<GoalController> {
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text(
-            "Add Contribution",
-            style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+          Center(
+            child:  Text(
+              "Add Contribution",
+              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: AppColors.textPrimary.withOpacity(0.7)),
+            ),
           ),
           20.h,
           TextField(
@@ -60,7 +62,7 @@ class AddContributionSheet extends GetView<GoalController> {
                 );
                 Get.back();
               },
-              child: const Text("Add"),
+              child: const Text("Add", style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
             ),
           ),
         ],

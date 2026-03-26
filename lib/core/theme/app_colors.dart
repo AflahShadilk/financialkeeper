@@ -21,6 +21,7 @@ class AppColors {
 
   //  Status
   static const success = Color(0xFF22C55E);
+  static const error = Color(0xFFEF4444);
 
   // Glass
   static const glass = Color(0x14FFFFFF);

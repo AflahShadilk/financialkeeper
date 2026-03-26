@@ -13,7 +13,7 @@ class StatsSection extends StatelessWidget {
       children: [
         StatCard(title: 'Saved', value: saved),
         12.w,
-        StatCard(title: 'Target', value: saved)
+        StatCard(title: 'Target', value: target)
       ],
     );
   }
