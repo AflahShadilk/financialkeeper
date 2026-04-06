@@ -1,87 +1,115 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:financialkeeper/models/contribution_model.dart';
 import 'package:financialkeeper/models/goal_model.dart';
 
 class FirebaseService {
-  final _db = FirebaseFirestore.instance;
-  
-  //add goal
-  Future<void>createGoal(String title, double amount, DateTime deadline) async {
-    await _db.collection('goals').doc('goal_1').set({
+  final FirebaseFirestore db = FirebaseFirestore.instance;
+  final FirebaseAuth auth = FirebaseAuth.instance;
+
+  String get userId => auth.currentUser?.uid ?? '';
+
+  CollectionReference get userGoals =>
+      db.collection('users').doc(userId).collection('goals');
+
+  //create goal
+  Future<void> createGoal(String title, double amount, DateTime deadline) async {
+    if (userId.isEmpty) return;
+    
+    final doc = userGoals.doc();
+    await doc.set({
       'title': title,
       'savedAmount': 0.0,
       'targetAmount': amount,
-      'deadline': deadline,
+      'deadline': Timestamp.fromDate(deadline),
     });
   }
 
-
   //goal streaming
-  Stream<GoalModel?> getGoals() {
-  return _db.collection('goals').doc('goal_1').snapshots().map((doc) {
-    final data = doc.data();
-
-    if (data == null) {
-      return null; 
-    }
-
-    return GoalModel.fromJson(data);
-  });
-}
+  Stream<List<GoalModel>> getGoals() {
+    if (userId.isEmpty) return Stream.value([]);
+    
+    return userGoals.snapshots().map((snap) {
+      return snap.docs.map((doc) {
+        return GoalModel.fromJson(doc.id, doc.data() as Map<String, dynamic>);
+      }).toList();
+    });
+  }
 
   //contribution related -----------------------------
 
-    Future<void>addContribution(double amount) async {
-    final goalr= _db.collection('goals').doc('goal_1');
+  Future<void> addContribution(String goalId, double amount, String note) async {
+    if (userId.isEmpty) return;
+    
+    final goalRef = userGoals.doc(goalId);
 
     //add contribution
-    await goalr.collection('contributions').add({
-      'amount':amount,
-      'date':Timestamp.now(),
+    await goalRef.collection('contributions').add({
+      'amount': amount,
+      'date': Timestamp.now(),
+      'note': note,
     });
 
     //update saved amount
-    final doc= await goalr.get();
-    final currentSaved= doc.data()?['savedAmount']??0;
-    await goalr.update({
+    final doc = await goalRef.get();
+    final data = doc.data() as Map<String, dynamic>?;
+    final currentSaved = (data?['savedAmount'] as num?)?.toDouble() ?? 0.0;
+    
+    await goalRef.update({
       'savedAmount': currentSaved + amount,
     });
   }
+
   //contribution streaming
-  Stream<List<ContributionModel>> getContributions() {
-    return _db
-        .collection('goals')
-        .doc('goal_1')
-        .collection('contributions').orderBy('date', descending: true)
+  Stream<List<ContributionModel>> getContributions(String goalId) {
+    if (userId.isEmpty) return Stream.value([]);
+    
+    return userGoals
+        .doc(goalId)
+        .collection('contributions')
+        .orderBy('date', descending: true)
         .snapshots()
         .map((snap) => snap.docs
-            .map((doc) => ContributionModel.fromJson(doc.id,doc.data()))
+            .map((doc) => ContributionModel.fromJson(doc.id, doc.data()))
             .toList());
   }
-//delete contribution
-  Future<void> deleteContribution(String id, double amount)async{
-    final goalref = _db.collection('goals').doc('goal_1');
 
-    await goalref.collection('contributions').doc(id).delete();
-    final doc= await goalref.get();
-    final currentSaved= doc.data()?['savedAmount']??0;
-    await goalref.update({
+  //delete contribution
+  Future<void> deleteContribution(String goalId, String contributionId, double amount) async {
+    if (userId.isEmpty) return;
+    
+    final goalRef = userGoals.doc(goalId);
+
+    await goalRef.collection('contributions').doc(contributionId).delete();
+    
+    final doc = await goalRef.get();
+    final data = doc.data() as Map<String, dynamic>?;
+    final currentSaved = (data?['savedAmount'] as num?)?.toDouble() ?? 0.0;
+    
+    await goalRef.update({
       'savedAmount': (currentSaved - amount).clamp(0, double.infinity),
     });
   }
 
   //update contribution
-  Future<void> updateContribution(String id, double oldAmount, double newAmount)async{
-    final goalRef =_db.collection('goals').doc('goal_1');
+  Future<void> updateContribution(
+      String goalId, String contributionId, double oldAmount, double newAmount, String newNote) async {
+    if (userId.isEmpty) return;
+    
+    final goalRef = userGoals.doc(goalId);
 
-    await goalRef.collection('contributions').doc(id).update({
+    await goalRef.collection('contributions').doc(contributionId).update({
       'amount': newAmount,
+      'note': newNote,
       'date': Timestamp.now(),
     });
+    
     final doc = await goalRef.get();
-    final current= doc.data()?['savedAmount']??0;
+    final data = doc.data() as Map<String, dynamic>?;
+    final currentSaved = (data?['savedAmount'] as num?)?.toDouble() ?? 0.0;
+    
     await goalRef.update({
-      'savedAmount': (current - oldAmount + newAmount).clamp(0, double.infinity),
+      'savedAmount': (currentSaved - oldAmount + newAmount).clamp(0, double.infinity),
     });
   }
 }

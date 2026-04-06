@@ -12,7 +12,20 @@
           "package_name": "com.example.financialkeeper"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "100022440174-g1mi0og5ot68ppr117rcdvum4jbbo94l.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.financialkeeper",
+            "certificate_hash": "e8d7ea65839a7f64e3c4c18fc26c83fe0ac9c4b5"
+          }
+        },
+        {
+          "client_id": "100022440174-dflgs3vstqpbdc8c39r530p6ddmsm2qr.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyDWLWf8FlcOLPFrd2XeleWNo_xS-etA4fs"
@@ -20,7 +33,19 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "100022440174-dflgs3vstqpbdc8c39r530p6ddmsm2qr.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "100022440174-0lemefmt3ki1tg9hh43n9153ssraqpnu.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.financialkeeper"
+              }
+            }
+          ]
         }
       }
     }

@@ -1,4 +1,5 @@
 import 'package:financialkeeper/core/theme/app_colors.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../../core/extensions/spacing.dart';
@@ -8,84 +9,48 @@ class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
 
   @override
-  State<SplashScreen> createState() => _SplashScreenState();
+  State<SplashScreen> createState() => SplashScreenState();
 }
 
-class _SplashScreenState extends State<SplashScreen>
+class SplashScreenState extends State<SplashScreen>
     with SingleTickerProviderStateMixin {
-  late final AnimationController _controller;
-  late final Animation<double> _scaleAnimation;
-  late final Animation<double> _fadeAnimation;
+  late final AnimationController controller;
+  late final Animation<double> scaleAnimation;
+  late final Animation<double> fadeAnimation;
 
   @override
   void initState() {
     super.initState();
-
-    _initAnimation();
-    _navigateNext();
+    initAnimation();
+    navigateNext();
   }
 
-  void _initAnimation() {
-    _controller = AnimationController(
+  void initAnimation() {
+    controller = AnimationController(
       vsync: this,
       duration: const Duration(milliseconds: 1600),
     );
 
-    _scaleAnimation = Tween<double>(begin: 0.7, end: 1.0).animate(
-      CurvedAnimation(parent: _controller, curve: Curves.easeOutBack),
+    scaleAnimation = Tween<double>(begin: 0.7, end: 1.0).animate(
+      CurvedAnimation(parent: controller, curve: Curves.easeOutBack),
     );
 
-    _fadeAnimation = Tween<double>(begin: 0.0, end: 1.0).animate(_controller);
+    fadeAnimation = Tween<double>(begin: 0.0, end: 1.0).animate(controller);
 
-    _controller.forward();
+    controller.forward();
   }
 
-  void _navigateNext() {
+  void navigateNext() {
     Future.delayed(const Duration(seconds: 3), () {
-      Get.offAllNamed('/goal');
+      final user = FirebaseAuth.instance.currentUser;
+      Get.offAllNamed(user != null ? '/goal' : '/login');
     });
   }
 
   @override
   void dispose() {
-    _controller.dispose();
+    controller.dispose();
     super.dispose();
-  }
-
-  Widget _buildLogo() {
-    return Container(
-      padding: const EdgeInsets.all(22),
-      decoration: BoxDecoration(
-        shape: BoxShape.circle,
-        gradient: LinearGradient(
-          colors: [
-            AppColors.primary,
-            AppColors.secondary,
-          ],
-        ),
-      ),
-      child: const Icon(
-        Icons.savings,
-        size: 48,
-        color: AppColors.textPrimary,
-      ),
-    );
-  }
-
-  Widget _buildTitle() {
-    return const AppText(
-      "Financial Keeper",
-      size: 26,
-      weight: FontWeight.bold,
-    );
-  }
-
-  Widget _buildSubtitle() {
-    return const AppText(
-      "Track • Save • Grow",
-      size: 14,
-      color: AppColors.textSecondary,
-    );
   }
 
   @override
@@ -94,7 +59,7 @@ class _SplashScreenState extends State<SplashScreen>
       body: Container(
         width: double.infinity,
         height: double.infinity,
-        decoration: const BoxDecoration(
+        decoration: BoxDecoration(
           gradient: LinearGradient(
             colors: [
               AppColors.gradientStart,
@@ -106,17 +71,41 @@ class _SplashScreenState extends State<SplashScreen>
           ),
         ),
         child: FadeTransition(
-          opacity: _fadeAnimation,
+          opacity: fadeAnimation,
           child: ScaleTransition(
-            scale: _scaleAnimation,
+            scale: scaleAnimation,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                _buildLogo(),
+                Container(
+                  padding: const EdgeInsets.all(22),
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    gradient: LinearGradient(
+                      colors: [
+                        AppColors.primary,
+                        AppColors.secondary,
+                      ],
+                    ),
+                  ),
+                  child: const Icon(
+                    Icons.savings_rounded,
+                    size: 48,
+                    color: AppColors.textPrimary,
+                  ),
+                ),
                 20.h,
-                _buildTitle(),
+                const AppText(
+                  "Financial Keeper",
+                  size: 26,
+                  weight: FontWeight.bold,
+                ),
                 10.h,
-                _buildSubtitle(),
+                const AppText(
+                  "Track • Save • Grow",
+                  size: 14,
+                  color: AppColors.textSecondary,
+                ),
               ],
             ),
           ),

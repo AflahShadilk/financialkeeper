@@ -1,29 +1,35 @@
-import 'package:financialkeeper/core/extensions/spacing.dart';
 import 'package:financialkeeper/core/theme/app_colors.dart';
-import 'package:financialkeeper/core/widgets/app_text.dart';
 import 'package:flutter/material.dart';
 
 class GoalHeader extends StatelessWidget {
   final String title;
-  const GoalHeader({super.key, required this.title});
+
+  const GoalHeader({
+    super.key,
+    required this.title,
+  });
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-      const  AppText(
-          'Your Goal',
-          size: 14,
-          color: AppColors.textSecondary,
-        ),
-        6.h,
-        AppText(
-          title,
-          size: 22,
-          weight: FontWeight.bold,
-        )
-      ],
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 20),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text(
+            title,
+            style: const TextStyle(
+              color: AppColors.textPrimary,
+              fontSize: 20,
+              fontWeight: FontWeight.w600,
+            ),
+          ),
+          IconButton(
+            icon: const Icon(Icons.logout_rounded, color: AppColors.textSecondary),
+            onPressed: () {},
+          ),
+        ],
+      ),
     );
   }
 }

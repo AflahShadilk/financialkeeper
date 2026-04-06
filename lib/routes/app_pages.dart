@@ -1,5 +1,6 @@
 import 'package:financialkeeper/bindings/goal_binding.dart';
-import 'package:financialkeeper/views/pages/goal_screen.dart';
+import 'package:financialkeeper/views/pages/goals_screen.dart';
+import 'package:financialkeeper/views/pages/login_screen.dart';
 import 'package:financialkeeper/views/pages/splash_screen.dart';
 import 'package:get/get.dart';
 
@@ -9,6 +10,8 @@ class AppPages {
       name: '/',
       page: () => SplashScreen(),
     ),
-    GetPage(name: '/goal', page: () => GoalScreen(), binding: GoalBinding()),
+    GetPage(name: '/login', page: () => const LoginScreen()),
+    GetPage(name: '/goal', page: () => const GoalsScreen(), binding: GoalBinding()),
+    
   ];
 }
