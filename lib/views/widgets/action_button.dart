@@ -4,7 +4,6 @@ import 'package:financialkeeper/views/pages/add_contribution_dialog.dart';
 import 'package:financialkeeper/views/pages/add_goal_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
 
 class FloatingActionButtonWidget extends StatelessWidget {
   final GoalController controller;
